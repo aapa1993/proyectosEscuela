@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(to bottom, #e0f7ff, #c8e6ff);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .bubble {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .message-icon {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+        }
+
+        .comment {
+            background-color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .add-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .add-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal .submit {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .modal .cancel {
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container"></div>
+    <button class="add-button" onclick="openModal()">+</button>
+
+    <!-- Modal para input -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Añade tu comentario</h3>
+            <input type="text" id="commentInput" placeholder="Escribe tu comentario...">
+            <button class="submit" onclick="submitComment()">Enviar</button>
+            <button class="cancel" onclick="closeModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const modal = document.getElementById('modal');
+        const commentInput = document.getElementById('commentInput');
+
+        function openModal() {
+            modal.style.display = 'block';
+            commentInput.focus();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            commentInput.value = '';
+        }
+
+        function submitComment() {
+            const comment = commentInput.value.trim();
+            if (comment) {
+                createBubble(comment);
+                closeModal();
+            }
+        }
+
+        // Permitir enviar con Enter
+        commentInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitComment();
+            }
+        });
+
+        function createBubble(text) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            // Crear el ícono de mensaje
+            const icon = document.createElement('div');
+            icon.className = 'message-icon';
+            icon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+            `;
+            
+            // Crear el contenedor del comentario
+            const comment = document.createElement('div');
+            comment.className = 'comment';
+            comment.textContent = text;
+            
+            bubble.appendChild(icon);
+            bubble.appendChild(comment);
+            
+            // Posición inicial
+            const x = Math.random() * 80 + 10; // 10-90%
+            const y = 100;
+            bubble.style.left = `${x}%`;
+            bubble.style.bottom = `${y}%`;
+            
+            // Velocidad aleatoria
+            const speed = 1 + Math.random() * 2;
+            
+            container.appendChild(bubble);
+            
+            // Animación
+            let currentY = y;
+            let startTime = Date.now();
+            
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                currentY -= speed * 0.05;
+                
+                if (currentY > -10) {
+                    bubble.style.bottom = `${currentY}%`;
+                    bubble.style.opacity = Math.max(0, (100 - currentY) / 100);
+                    bubble.style.transform = `translateX(-50%) rotate(${Math.sin(currentY / 10) * 5}deg)`;
+                    requestAnimationFrame(animate);
+                } else {
+                    bubble.remove();
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <style>
+        :root {
+            --color-inactivo: #5f5050;
+            --color-hover: #ffa400;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .valoracion {
+            display: flex;
+            flex-direction: row-reverse;
+            margin-top: 20px; /* Espacio entre el cuadro de opinión y las estrellas */
+        }
+        .valoracion button {
+            background-color: initial;
+            border: 0;
+            color: var(--color-inactivo);
+            transition: 1s all;
+            font-size: 2em; /* Aquí ajustas el tamaño de las estrellas */
+        }
+        .valoracion button:hover {
+            cursor: pointer;
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        .valoracion button.selected,
+        .valoracion button.selected ~ button {
+            color: var(--color-hover);
+        }
+        button:nth-child(1):hover ~ button {
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        button:nth-child(2):hover ~ button {
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        button:nth-child(3):hover ~ button {
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        button:nth-child(4):hover ~ button {
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        button:nth-child(5):hover ~ button {
+            color: var(--color-hover);
+            transform: rotate(360deg);
+        }
+        textarea {
+            width: 200px;  /* Ajusta el ancho a 200px */
+            height: 200px; /* Ajusta la altura a 200px */
+            resize: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <textarea placeholder="Escribe tu opinión aquí..."></textarea>
+
+    <div class="valoracion">
+
+        <!-- Estrella 1 -->
+        <button>
+            <i class="fas fa-star"></i>
+        </button>
+
+        <!-- Estrella 2 -->
+        <button>
+            <i class="fas fa-star"></i>
+        </button>
+
+        <!-- Estrella 3 -->
+        <button>
+            <i class="fas fa-star"></i>
+        </button>
+
+        <!-- Estrella 4 -->
+        <button>
+            <i class="fas fa-star"></i>
+        </button>
+
+        <!-- Estrella 5 -->
+        <button>
+            <i class="fas fa-star"></i>
+        </button>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.valoracion button').forEach((button, index, buttons) => {
+            button.addEventListener('click', () => {
+                buttons.forEach((btn, idx) => {
+                    if (idx >= index) {
+                        btn.classList.add('selected');
+                    } else {
+                        btn.classList.remove('selected');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
