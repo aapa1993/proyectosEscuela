@@ -3,9 +3,10 @@ const card = document.getElementById("card");
 const commentInput = document.getElementById("commentInput");
 const addButton = document.getElementById("add-button");
 const cancelButton = document.getElementById("cancel");
+const reverseCapybara = document.getElementById("reverse");
 
 //Mostrar el card del comentario
-addButton.addEventListener("click", () => {
+reverseCapybara.addEventListener("click", () => {
   card.style.display = "block";
   commentInput.focus();
 })
@@ -16,13 +17,35 @@ cancelButton.addEventListener("click", () => {
   commentInput.value = "";
 })
 
+//Mostrar el otro capibara
+addButton.addEventListener("mouseover", () =>{
+  reverseCapybara.style.display = "block";
+
+  reverseCapybara.addEventListener("mouseout", () => {
+    addButton.style.display = "block";
+    reverseCapybara.style.display = "none";
+  })
+})
+
+
 function submitComment() {
   const comment = commentInput.value.trim();
   if (comment) {
     createBubble(comment);
     card.style.display = "none";
     commentInput.value = "";
+    lanzarConfetti();
+
   }
+}
+
+// Función para disparar confetti
+function lanzarConfetti() {
+  confetti({
+    particleCount: 200, // Número de partículas
+    spread: 70,        
+    origin: { y: 0.6 }  
+  });
 }
 
 // Permitir enviar con Enter
@@ -66,15 +89,12 @@ function createBubble(text) {
 
   // Animación
   let currentY = y;
-  let startTime = Date.now();
 
   function animate() {
-    const elapsed = Date.now() - startTime;
     currentY -= speed * 0.05;
 
     if (currentY > -10) {
       bubble.style.bottom = `${currentY}%`;
-      bubble.style.opacity = Math.max(0, (100 - currentY) / 100);
       bubble.style.transform = `translateX(-50%) rotate(${
         Math.sin(currentY / 10) * 5
       }deg)`;
@@ -86,3 +106,6 @@ function createBubble(text) {
 
   requestAnimationFrame(animate);
 }
+
+
+
