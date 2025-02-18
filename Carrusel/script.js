@@ -1,197 +1,137 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+//Definiendo variables
+const body = document.body;
+const card = document.getElementById("card");
+const commentInput = document.getElementById("commentInput");
+const addButton = document.getElementById("add-button");
+const cancelButton = document.getElementById("cancel");
+const reverseCapybara = document.getElementById("reverse");
+
+//Mostrar el card del comentario
+reverseCapybara.addEventListener("click", () => {
+  card.style.display = "block";
+  commentInput.focus();
+});
+
+//Cerrar el card
+cancelButton.addEventListener("click", () => {
+  card.style.display = "none";
+  commentInput.value = "";
+});
+
+//Guarda los mensajes en un localStorage
+window.addEventListener("load", function () {
+  const storedComments = JSON.parse(localStorage.getItem("comments")) || [];
+  storedComments.forEach((comment) => createBubble(comment));
+  
+  // Limpiar LocalStorage al cargar la página
+  localStorage.removeItem("comments");
+});
+
+//Mostrar el otro capibara
+addButton.addEventListener("mouseover", () => {
+  reverseCapybara.style.display = "block";
+
+  reverseCapybara.addEventListener("mouseout", () => {
+    addButton.style.display = "block";
+    reverseCapybara.style.display = "none";
+  });
+});
+
+//Enviar comentario
+function submitComment() {
+  const comment = commentInput.value.trim();
+  if (comment) {
+    createBubble(comment);
+    card.style.display = "none";
+    commentInput.value = "";
+    lanzarConfetti();
+
+    //Comentarios aparecerán incluso cuando se recargue la página
+    const storedComments = JSON.parse(localStorage.getItem("comments")) || [];
+    storedComments.push(comment);
+    localStorage.setItem("comments", JSON.stringify(storedComments));
+  }
 }
 
-body {
-  height: 100vh;
-  width: 100%;
-  background-color: rgb(16,14,23);
+// Función para disparar confetti
+function lanzarConfetti() {
+  confetti({
+    particleCount: 200, // Número de partículas
+    spread: 70,
+    origin: { y: 0.6 },
+  });
 }
 
-/*Cargar la fuente cuphead*/
-@font-face{
-  font-family: 'Cuphead';
-  src: url("CupheadFelix-Regular.otf") format("truetype");
+// Permitir enviar con Enter
+commentInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    submitComment();
+  }
+});
+
+//Cuadro de comentario
+function createBubble(text) {
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+
+  // Crear el ícono de mensaje
+  const icon = document.createElement("div");
+  icon.className = "message-icon";
+  icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+    `;
+
+  // Crear el contenedor del comentario
+  const comment = document.createElement("div");
+  comment.className = "comment";
+  comment.textContent = text;
+
+  bubble.appendChild(icon);
+  bubble.appendChild(comment);
+
+  // Posición inicial
+  const x = Math.random() * 80 + 10; // 10-90%
+  const y = 100;
+  bubble.style.left = `${x}%`;
+  bubble.style.bottom = `${y}%`;
+
+  // Velocidad aleatoria
+  const speed = 2 + Math.random() * 1;
+
+  body.appendChild(bubble);
+
+  // Animación
+  let currentY = y;
+
+  function animate() {
+    currentY -= speed * 0.1;
+
+    if (currentY > -30) {
+      bubble.style.bottom = `${currentY}%`;
+      bubble.style.transform = `translateX(-50%) rotate(${
+        Math.sin(currentY / 10) * 5
+      }deg)`;
+      requestAnimationFrame(animate);
+    } else {
+      setTimeout(() => {
+        // Reinicia la posición
+        currentY = y;
+        bubble.style.bottom = `${currentY}%`;
+
+        const newX = Math.random() * 80 + 2;
+        bubble.style.left = `${newX}%`;
+
+        requestAnimationFrame(animate);
+      }, 3000);
+    }
+  }
+
+  requestAnimationFrame(animate);
 }
 
-/*Efecto color recorriendo los bordes*/
-@keyframes worm-border {
-  0% { box-shadow: 5px 0 orangered, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
-  25% { box-shadow: 5px 0 transparent, -2px 0 orangered, 0 2px transparent, 0 -2px transparent; }
-  50% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px orangered, 0 -2px transparent; }
-  75% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px transparent, 0 -2px orangered; }
-  100% { box-shadow: 5px 0 orangered, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
-}
-
-/*Comentarios*/
-.bubble {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transform: translateX(-80%);
-  transition: transform 0.3s ease-in-out;
-  height: 500px;
-}
-
-.message-icon {
-  width: 50px;
-  height: 24px;
-  color: blue;
-}
-
-.comment {
-  background-color: white;
-  padding: 18px 20px;
-  border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  font-size: 17px;
-  font-weight: bold;
-  color: black;
-}
-
-/*Capybara*/
-.add-button {
-  position: fixed;
-  top: 30%;
-  left: 42%;
-  background-color: white;
-  border: none;
-  border-radius: 9999px;
-  width: 180px;
-  height: 180px;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 6px 10px 10px 0 rgb(77,29,106);
-
-  transition:  0.4s;
-  font-size: 50px;
-  z-index: 1;
-  transition: 0.3s;
-}
-
-/*Segundo capibara*/
-.reverse{
-  display: none;
-  position: fixed;
-  top: 30%;
-  left: 42%;
-  background-color: white;
-  border: none;
-  border-radius: 9999px;
-  width: 180px;
-  height: 180px;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 6px 10px 10px 0 rgb(77,29,106);
-  transition:  0.4s;
-  font-size: 50px;
-  z-index: 1;
-}
-
-/*Cuadro para insertar comentario*/
-.div-text{
-  position: absolute;
-  left: 35%;
-  top: 63%;
-  width: fit-content;
-  font-size: 2rem;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background: linear-gradient(90deg, rgb(26,162,177), rgb(250,0,92));
-  padding: 5px 12px;
-  border-radius: 10px;
-}
-
-.div-text p{
-  font-family: "Oswald", sans-serif;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #efef;
-}
-
-.div-text img{
-  width: 45px;
-}
-
-/* Estilos para el card */
-.card {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-  backdrop-filter: blur(2px);
-}
-
-.card h1{
-  font-family: "Cuphead", sans-serif;
-}
-
-
-.card-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #efef;
-  padding: 20px;
-  border-radius: 10px;
-  width: 500px;
-  height: 200px;
-  text-align: center;
-}
-
-.card input {
-  width: 90%;
-  padding: 10px;
-  margin: 20px 0;
-  border-radius: 5px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  outline: none;
-  animation: worm-border 3s infinite linear;
-}
-
-
-.card button {
-  padding: 10px 40px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 15px;
-
-}
-
-.card .submit {
-  background-color: #3b82f6;
-  color: #fff;
-  transition: 0.3s;
-  box-shadow: 1px 1px 4px 0 #000;
-}
-
-.card .submit:hover{
-  background-color: #ffff;
-  color: #3b82f6;
-}
-
-.card .cancel {
-  background-color: gray;
-  color: white;
-  transition: 0.3s;
-  box-shadow: 1px 1px 4px 0 #000;
-}
-
-.card .cancel:hover{
-  background-color: #fff;
-  color: #000;
-}
+//Animation On Screen al recargar la página
+AOS.init({
+  once: true,
+});
