@@ -10,18 +10,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <title>Panel de Opiniones</title>
 </head>
 <body>
-    <img class="add-button" id="add-button" src="recursos/capy2r.png" alt="capybara">
-    <img class="reverse" id="reverse" src="recursos/capy2.png" alt="takataka">
+    <img class="add-button" id="add-button" data-aos="fade-down" src="recursos/capy2r.png" alt="capybara">
+    <img class="reverse" id="reverse" data-aos="fade-down" src="recursos/capy2.png" alt="takataka">
     <div class="div-text">
-        <p class="texto">Presiona el Capybara</p>
-        <img src="recursos/dedo.png" alt="dedo">
+        <p class="texto" data-aos="fade-down">Presiona el Capybara</p>
+        <img src="recursos/dedo.png" alt="dedo" data-aos="fade-down">
     </div>
     <!-- card para input -->
     <div id="card" class="card">
-        <div class="card-content">
+        <div class="card-content"> 
             <h1>Deja tu comentario</h1>
             <input type="text" id="commentInput" placeholder="¿Qué te parecieron las presentaciones?">
             <button class="submit" onclick="submitComment()">Enviar</button>
@@ -32,4 +36,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
