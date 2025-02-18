@@ -8,7 +8,10 @@ body {
   height: 100vh;
   width: 100%;
   background-color: rgb(16,14,23);
+  overflow: hidden;
 }
+
+
 
 /*Cargar la fuente cuphead*/
 @font-face{
@@ -194,4 +197,16 @@ body {
 .card .cancel:hover{
   background-color: #fff;
   color: #000;
+}
+
+/*Animación al recargar la página*/
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-up.fade-up-show {
+  opacity: 1;
+  transform: translateY(0);
 }
