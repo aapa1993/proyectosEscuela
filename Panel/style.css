@@ -149,11 +149,25 @@ body {
   padding: 20px;
   border-radius: 10px;
   width: 500px;
-  height: 200px;
+  height: 250px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.card input {
+.card .commentInput {
+  width: 90%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 2px solid #ccc;
+  outline: none;
+  animation: worm-border 3s infinite linear;
+  margin-left: 20px;
+}
+
+.card .nameInput{
   width: 90%;
   padding: 10px;
   margin: 20px 0;
@@ -162,8 +176,14 @@ body {
   border: 2px solid #ccc;
   outline: none;
   animation: worm-border 3s infinite linear;
+  margin-left: 20px;
 }
 
+.card-content .buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .card button {
   padding: 10px 40px;
