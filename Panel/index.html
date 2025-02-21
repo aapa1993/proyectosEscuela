@@ -27,13 +27,17 @@
     <div id="card" class="card">
         <div class="card-content"> 
             <h1>Deja tu comentario</h1>
-            <input type="text" id="commentInput" placeholder="¿Qué te parecieron las presentaciones?">
-            <button class="submit" onclick="submitComment()">Enviar</button>
-            <button class="cancel" id="cancel">Cancelar</button>
+            <form id="form">
+                <input type="text" class="nameInput" id="nameInput" name="name" placeholder="Introduce tu nombre" required>
+                <input type="text" class="commentInput" id="commentInput" name="comment" placeholder="¿Qué te parecieron las presentaciones?" required>
+                <div class="buttons">
+                    <button type="submit" class="submit">Enviar</button>
+                    <button type="button" class="cancel" id="cancel">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
