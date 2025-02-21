@@ -5,23 +5,26 @@ const commentInput = document.getElementById("commentInput");
 const addButton = document.getElementById("add-button");
 const cancelButton = document.getElementById("cancel");
 const reverseCapybara = document.getElementById("reverse");
+const nameInput = document.getElementById("nameInput");
+const form = document.getElementById("form");
 
 //Mostrar el card del comentario
 reverseCapybara.addEventListener("click", () => {
   card.style.display = "block";
-  commentInput.focus();
+  nameInput.focus();
 });
 
 //Cerrar el card
 cancelButton.addEventListener("click", () => {
   card.style.display = "none";
   commentInput.value = "";
+  nameInput.value = "";
 });
 
 //Guarda los mensajes en un localStorage
 window.addEventListener("load", function () {
   const storedComments = JSON.parse(localStorage.getItem("comments")) || [];
-  storedComments.forEach((comment) => createBubble(comment));
+  storedComments.forEach((comment) => createBubble(`${comment.name} dijo: ${comment.comment}`));
 });
 
 //Mostrar el otro capibara
@@ -34,18 +37,25 @@ addButton.addEventListener("mouseover", () => {
   });
 });
 
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  submitComment();
+})
 //Enviar comentario
 function submitComment() {
   const comment = commentInput.value.trim();
-  if (comment) {
-    createBubble(comment);
+  const name = nameInput.value.trim();
+  if (comment && name) {
+    const newComment = { name, comment };
+    createBubble(`${name} dijo: ${comment}`);
     card.style.display = "none";
     commentInput.value = "";
+    nameInput.value = "";
     lanzarConfetti();
 
     //Comentarios aparecerán incluso cuando se recargue la página
     const storedComments = JSON.parse(localStorage.getItem("comments")) || [];
-    storedComments.push(comment);
+    storedComments.push(newComment);
     localStorage.setItem("comments", JSON.stringify(storedComments));
   }
 }
@@ -66,13 +76,16 @@ commentInput.addEventListener("keypress", function (e) {
   }
 });
 
+
 //Remover comentarios
-function removeCommentFromLocalStorage(text) {
+function removeCommentFromLocalStorage(name,comment) {
   // Recuperar los comentarios guardados
   let storedComments = JSON.parse(localStorage.getItem("comments")) || [];
 
   // Filtrar los comentarios que no sean el que se va a eliminar
-  storedComments = storedComments.filter(comment => comment !== text);
+  storedComments = storedComments.filter(storedComment => 
+    storedComment.name !== name || storedComment.comment !== comment
+  );
 
   localStorage.setItem("comments", JSON.stringify(storedComments));
 }
@@ -83,10 +96,12 @@ function createBubble(text) {
   bubble.className = "bubble";
   bubble.style.cursor = "pointer";
 
+  const [name, comment] = text.split(" dijo: ");
+
   //Borrar el comentario cuando se dé click
   bubble.addEventListener("click", () => {
     bubble.remove();
-    removeCommentFromLocalStorage(text);
+    removeCommentFromLocalStorage(name,comment);
   });
 
   // Crear el ícono de mensaje
@@ -99,15 +114,15 @@ function createBubble(text) {
     `;
 
   // Crear el contenedor del comentario
-  const comment = document.createElement("div");
-  comment.className = "comment";
-  comment.textContent = text;
+  const commentElement = document.createElement("div");
+  commentElement.className = "comment";
+  commentElement.textContent = text;
 
   bubble.appendChild(icon);
-  bubble.appendChild(comment);
+  bubble.appendChild(commentElement);
 
   // Posición inicial
-  const x = Math.random() * 80 + 10; // 10-90%
+  const x = Math.random() * 90 + 10; // 10-90%
   const y = 100;
   bubble.style.left = `${x}%`;
   bubble.style.bottom = `${y}%`;
@@ -123,7 +138,7 @@ function createBubble(text) {
   function animate() {
     currentY -= speed * 0.1;
 
-    if (currentY > -70) {
+    if (currentY > -45) {
       bubble.style.bottom = `${currentY}%`;
       bubble.style.transform = `translateX(-50%) rotate(${
         Math.sin(currentY / 10) * 5
