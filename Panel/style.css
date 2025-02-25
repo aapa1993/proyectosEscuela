@@ -21,11 +21,11 @@ body {
 
 /*Efecto color recorriendo los bordes*/
 @keyframes worm-border {
-  0% { box-shadow: 5px 0 orangered, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
-  25% { box-shadow: 5px 0 transparent, -2px 0 orangered, 0 2px transparent, 0 -2px transparent; }
-  50% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px orangered, 0 -2px transparent; }
-  75% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px transparent, 0 -2px orangered; }
-  100% { box-shadow: 5px 0 orangered, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
+  0% { box-shadow: 5px 0 blue, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
+  25% { box-shadow: 5px 0 transparent, -2px 0 blue, 0 2px transparent, 0 -2px transparent; }
+  50% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px blue, 0 -2px transparent; }
+  75% { box-shadow: 5px 0 transparent, -2px 0 transparent, 0 2px transparent, 0 -2px blue; }
+  100% { box-shadow: 5px 0 blue, -2px 0 transparent, 0 2px transparent, 0 -2px transparent; }
 }
 
 /*Comentarios*/
@@ -69,7 +69,6 @@ body {
   font-size: 24px;
   cursor: pointer;
   box-shadow: 6px 10px 10px 0 rgb(77,29,106);
-
   transition:  0.4s;
   font-size: 50px;
   z-index: 1;
@@ -90,7 +89,6 @@ body {
   font-size: 24px;
   cursor: pointer;
   box-shadow: 6px 10px 10px 0 rgb(77,29,106);
-  transition:  0.4s;
   font-size: 50px;
   z-index: 1;
 }
