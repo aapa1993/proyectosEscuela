@@ -12,6 +12,7 @@ const form = document.getElementById("form");
 reverseCapybara.addEventListener("click", () => {
   card.style.display = "block";
   nameInput.focus();
+
 });
 
 //Cerrar el card
@@ -25,6 +26,8 @@ cancelButton.addEventListener("click", () => {
 window.addEventListener("load", function () {
   const storedComments = JSON.parse(localStorage.getItem("comments")) || [];
   storedComments.forEach((comment) => createBubble(`${comment.name} dijo: ${comment.comment}`));
+
+  this.localStorage.removeItem("comments");
 });
 
 //Mostrar el otro capibara
@@ -41,6 +44,7 @@ form.addEventListener("submit", function(e){
   e.preventDefault();
   submitComment();
 })
+
 //Enviar comentario
 function submitComment() {
   const comment = commentInput.value.trim();
@@ -75,7 +79,6 @@ commentInput.addEventListener("keypress", function (e) {
     submitComment();
   }
 });
-
 
 //Remover comentarios
 function removeCommentFromLocalStorage(name,comment) {
@@ -122,7 +125,7 @@ function createBubble(text) {
   bubble.appendChild(commentElement);
 
   // Posición inicial
-  const x = Math.random() * 90 + 10; // 10-90%
+  const x = Math.random() * 70 + 20; // 10-90, 20-60
   const y = 100;
   bubble.style.left = `${x}%`;
   bubble.style.bottom = `${y}%`;
@@ -138,7 +141,7 @@ function createBubble(text) {
   function animate() {
     currentY -= speed * 0.1;
 
-    if (currentY > -45) {
+    if (currentY > -50) {
       bubble.style.bottom = `${currentY}%`;
       bubble.style.transform = `translateX(-50%) rotate(${
         Math.sin(currentY / 10) * 5
@@ -150,7 +153,7 @@ function createBubble(text) {
         currentY = y;
         bubble.style.bottom = `${currentY}%`;
 
-        const newX = Math.random() * 80 + 2;
+        const newX = Math.random() * 70 + 20;
         bubble.style.left = `${newX}%`;
 
         requestAnimationFrame(animate);
