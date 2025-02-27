@@ -7,6 +7,11 @@ const cancelButton = document.getElementById("cancel");
 const reverseCapybara = document.getElementById("reverse");
 const nameInput = document.getElementById("nameInput");
 const form = document.getElementById("form");
+const presiona = document.getElementById("presiona");
+
+presiona.addEventListener("click", () => {
+  alert("Aquí no, el capybara :)");
+})
 
 //Mostrar el card del comentario
 reverseCapybara.addEventListener("click", () => {
@@ -131,7 +136,7 @@ function createBubble(text) {
   bubble.style.bottom = `${y}%`;
 
   // Velocidad aleatoria
-  const speed = 2 + Math.random() * 1;
+  const speed = 1.5 + Math.random() * 1;
 
   body.appendChild(bubble);
 
