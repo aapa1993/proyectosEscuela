@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="src/virus-scanner.png">
+    <title>Virus Scanner</title>
+  </head>
+  <body>
+
+    <main class="container">
+        <h1>Virus Scanner</h1>
+
+        <section class="url">
+            <h2>Scan a URL</h2>
+            <input type="text" id="url" placeholder="Enter a URL (e.g. https//www.example.com)">
+            <button onclick="scanURL()">Scan URL</button>
+        </section>
+
+        <section class="file">
+            <h2>Scan a File</h2>
+            <input type="file" id="file">
+            <button onclick="scanFile()">Scan File</button>
+        </section>
+
+        <div class="result" id="result"></div>
+
+        <div class="report" id="report">
+            <div class="modal">
+                <span onclick="closeModal()">&times;</span>
+            </div>
+            <h2>Full Report</h2>
+            <div id="report-content"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
