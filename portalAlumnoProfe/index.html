@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
+    <title>Registro</title>
+</head>
+<body>
+
+    <form class="log-in" action="" method="post" id="log-in">
+        <input type="text" name="user-li" id="user-li" placeholder="Usuario">
+        <input type="password" name="contraseña-li" placeholder="Contraseña" id="contraseña-li">
+        <input type="checkbox" name="recordar" id="recordar" placeholder="H">Recuerdame>
+        <a href="#" class="link">Haz olvidado tu contraseña</a>
+        <button type="submit" name="conectar">Conectar</button>
+    </form>
+
+    <form class="sign-up" id="sign-up" action="" method="post">
+        <i id="back" class="arrow fa-solid fa-arrow-left"></i>
+        <h1>Registro para el portal</h1>
+        <div class="inputs">
+            <input type="text" name="nombre" placeholder="Nombre completo" id="nombre">
+            <input type="email" name="email" placeholder="Correo electrónico" id="email">
+            <input type="text" name="matricula" placeholder="Matrícula" id="matricula">
+            <input type="password" name="contraseña" placeholder="Contraseña" id="contraseña">
+            <input type="password" name="contraseña-rpt" placeholder="Repite la contraseña" id="contraseña-rpt">
+            <div class="checkbox">
+                <div class="alumno-div div-checkboxes">
+                    <input type="radio" placeholder="h" class="profesor checkboxes" name="profesor" id="profesor">
+                    <label for="profesor">Profesor</label>
+                </div>
+                <div class="profesor-div div-checkboxes">
+                    <input type="radio" placeholder="h" class="alumno checkboxes" name="alumno" id="alumno">
+                    <label for="alumno">Alumno</label>
+                </div>
+            </div>
+            <button type="submit" name="enviar">Registrar</button>
+        </div>
+        <p>¿Ya tienes una cuenta? <span id="back-text">Ingresa aquí</span></p>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
